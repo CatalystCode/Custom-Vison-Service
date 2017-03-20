@@ -21,11 +21,9 @@ Clone this git repo using command below or other tools such as Visual Studio.
 git clone https://github.com/User1m/IRISDemo.git
 ```
 
-Change Directory into AndroidAPP
-```
-cd  AndroidApp
-```
-In Android Studio, choose "Open an existing Android Studio Project" and find the cloned directory from the previous step
+In Android Studio, choose "Open an existing Android Studio Project" and find the cloned directory from the previous step.
+
+Open the `AndroidAPP` folder.
 
 ## Setup
 
