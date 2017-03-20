@@ -1,7 +1,6 @@
 AndroidAPP/*.iml
 AndroidAPP/.gradle
 AndroidAPP/local.properties
-AndroidAPP/.idea/workspace.xml
 AndroidAPP/.idea/*
 AndroidAPP/.DS_Store
 AndroidAPP/build
