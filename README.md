@@ -80,7 +80,7 @@ See also the list of [contributors](https://github.com/User1m/IRISDemo/contribut
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see this [URL](https://opensource.org/licenses/MIT) file for details
 
 ## Acknowledgments
 
