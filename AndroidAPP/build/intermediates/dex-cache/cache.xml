@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/claudius/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/69edde9fc4b01c9fd51d25b83428837478c27254/okhttp-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
+        <dex dex="/Users/claudius/Documents/workspace/_ANDROIDAPPS/IrisDemo/app/build/intermediates/pre-dexed/debug/okhttp-3.6.0_158feb23776455e38dd200128c39e6bb9d548aab.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/claudius/.android/build-cache/7994bb7b3afad1fba17f4b8fa9ac0f889e6970e8/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1a32a39a9fcae3d354a312cdb78c18159fa702e6">
+        <dex dex="/Users/claudius/Documents/workspace/_ANDROIDAPPS/IrisDemo/app/build/intermediates/pre-dexed/debug/classes_5dc97a0c9fa1f4f09f072921307525848bc04b7d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/claudius/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.0/c4ba5371a29ac9b2ad6129b1d39ea38750043eff/gson-2.8.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c4ba5371a29ac9b2ad6129b1d39ea38750043eff">
+        <dex dex="/Users/claudius/Documents/workspace/_ANDROIDAPPS/IrisDemo/app/build/intermediates/pre-dexed/debug/gson-2.8.0_f77f533daa7c666060387066b02a4e9c4d7bac07.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/claudius/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.11.0/840897fcd7223a8143f1d9b6f69714e7be34fd50/okio-1.11.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="840897fcd7223a8143f1d9b6f69714e7be34fd50">
+        <dex dex="/Users/claudius/Documents/workspace/_ANDROIDAPPS/IrisDemo/app/build/intermediates/pre-dexed/debug/okio-1.11.0_92d719c9571c569f2e0a33de2cce7df9f1f59ab8.jar" />
+    </item>
+
+</items>
