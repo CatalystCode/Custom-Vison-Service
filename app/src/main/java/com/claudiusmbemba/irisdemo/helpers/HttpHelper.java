@@ -25,7 +25,7 @@ public class HttpHelper {
         OkHttpClient client = new OkHttpClient();
 
         Request.Builder requestBuilder = new Request.Builder();
-        requestBuilder.addHeader("Prediction-Key","a5427c45494e4e1aaf339e7406995140");
+        requestBuilder.addHeader("Prediction-Key","1f63500d4fab43a095da927acd22aa60");
 
         if (requestPackage.getParams().containsKey("Url")){
             requestBuilder.addHeader("Content-Type","application/json");

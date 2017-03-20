@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public final String URL = "url";
     public final String IMAGE = "image";
     public static final String TAG = "IRIS_LOGGER";
-    private final String ENDPOINT = "https://customvisionppe.azure-api.net/v1.0/Prediction/bccc6a44-3a32-4b0d-8d21-474bf5d57a1f/%s?iterationId=f5b74fd3-b9ee-4dc1-8a3a-ebeada985626";
+    private final String ENDPOINT = "https://customvisionppe.azure-api.net/v1.0/Prediction/e7e9da08-dc38-4d1a-8274-7339cb0474c0/%s?iterationId=5606be21-ef44-4b51-b278-0f3a6565c5aa";
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
