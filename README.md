@@ -68,7 +68,11 @@ Update that line to use your Prediction Key Value
 
 ## Running
 
-Run on the emulator using Android Studio IDE or run on an actual device to utilize image capture functionality. Note: you will need to create an Android Virtual Device if you cannot find an emulator you are looking for. For Windows users, make sure that you turn off Hyper-V feature using "Turn Windows features on or off". Or, run the command line using local admin, bcdedit /set hypervisorlaunchtype off.
+Run on the emulator using Android Studio IDE or run on an actual device to utilize image capture functionality. 
+
+Note: you will need to create an Android Virtual Device if you cannot find an emulator you are looking for. 
+
+For Windows users, make sure that you turn off Hyper-V feature using "Turn Windows features on or off". Or, run the command line using local admin, bcdedit /set hypervisorlaunchtype off.
 
 ## Running the tests
 
