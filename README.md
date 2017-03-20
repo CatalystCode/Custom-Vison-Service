@@ -36,7 +36,8 @@ Update the following
 private final String ENDPOINT = "your-iris-endpoint-url"
 ```
 
-Change your URL to use a string format placeholder
+Change your URL to use a string format placeholder.
+
 Your url will look like this:
 ```
 "https://customvisionppe.azure-api.net/v1.0/Prediction/bccc6a..../url?iterationId=f5b74fd3..."
@@ -56,7 +57,7 @@ Find where the prediction-key header KVPair is set
 requestBuilder.addHeader("Prediction-Key","a5427...");
 ```
 
-Update to use your Prediction Key Value
+Update that line touse your Prediction Key Value
 
 ## Running
 
