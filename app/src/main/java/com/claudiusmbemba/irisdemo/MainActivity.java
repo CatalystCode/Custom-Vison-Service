@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public final String URL = "url";
     public final String IMAGE = "image";
     public static final String TAG = "IRIS_LOGGER";
+    //TODO: Change Me
     private final String ENDPOINT = "your-iris-endpoint-url";
 
     private void dispatchTakePictureIntent() {
