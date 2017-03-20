@@ -3,6 +3,6 @@ AndroidAPP/.gradle
 AndroidAPP/local.properties
 AndroidAPP/.idea/*
 AndroidAPP/.DS_Store
-AndroidAPP/build
+AndroidAPP/build/*
 AndroidAPP/captures
 AndroidAPP/.externalNativeBuild
