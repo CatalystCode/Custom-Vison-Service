@@ -30,6 +30,8 @@ In Android Studio, choose "Open an existing Android Studio Project" and find the
 ## Setup
 
 Update IRIS endpoint using your own endpoint url in the java file
+
+Locate
 ```
 MainActivity.java
 ```
@@ -41,7 +43,7 @@ private final String ENDPOINT = "your-iris-endpoint-url"
 
 Change your URL to use a string format placeholder. In your IRIS portal, go to the Performance tab, select an Iteration on the left side and click on Evalution URL.
 
-Your url will look like this and either contain the string 'url' or 'image'. If you have an image URL, use 'url'; If you have an image file, use 'image'.
+Your url will look like this and either contain the string 'url' or 'image'.
 ```
 "https://customvisionppe.azure-api.net/v1.0/Prediction/bccc6a..../url?iterationId=f5b74fd3..."
 ```
@@ -51,6 +53,8 @@ Change ('url' or 'image') to this:
 ```
 
 Update code to use your Prediction Key in the java file
+
+Locate
 ```
 helpers/HttpHelper.java
 ```
@@ -83,7 +87,7 @@ See also the list of [contributors](https://github.com/User1m/IRISDemo/contribut
 
 ## License
 
-This project is licensed under the MIT License - see this [URL](https://opensource.org/licenses/MIT) file for details
+This project is licensed under the MIT License - see this [URL](https://opensource.org/licenses/MIT) for details
 
 ## Acknowledgments
 
