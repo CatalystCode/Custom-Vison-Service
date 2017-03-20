@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "IRIS_LOGGER";
     //TODO: Change Me
     private final String ENDPOINT = "your-iris-endpoint-url";
-
+    
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
