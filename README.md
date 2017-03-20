@@ -38,11 +38,11 @@ private final String ENDPOINT = "your-iris-endpoint-url"
 
 Change your URL to use a string format placeholder.
 
-Your url will look like this:
+Your url will look like this and either contain the string 'url' or 'image':
 ```
 "https://customvisionppe.azure-api.net/v1.0/Prediction/bccc6a..../url?iterationId=f5b74fd3..."
 ```
-Change to this:
+Change ('url' or 'image') to this:
 ```
 "https://customvisionppe.azure-api.net/v1.0/Prediction/bccc6a..../%s?iterationId=f5b74fd3..."
 ```
@@ -65,7 +65,7 @@ Run on the emulator using Android Studio IDE or run on an actual device to utili
 
 ## Running the tests
 
-Run Local and Instrumented tests on Android Studio by going to the test file and hitting the test run button on Androir Studio.
+Run Local and Instrumented tests on Android Studio by going to the test file and hitting the test run button on Android Studio.
 
 ## Built With
 
