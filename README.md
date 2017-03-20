@@ -32,7 +32,7 @@ Locate MainActivity.java
 ```
 
 Update the following 
-````
+```
 private final String ENDPOINT = "your-iris-endpoint-url"
 ```
 
