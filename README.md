@@ -29,7 +29,7 @@ Open the `AndroidAPP` folder.
 
 Update IRIS endpoint using your own endpoint url in the java file
 
-Locate
+Locate the following file:
 ```
 MainActivity.java
 ```
@@ -52,7 +52,7 @@ Change ('url' or 'image') to this:
 
 Update code to use your Prediction Key in the java file
 
-Locate
+Locate the following file:
 ```
 helpers/HttpHelper.java
 ```
