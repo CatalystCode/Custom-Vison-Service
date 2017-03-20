@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Iris Demo</string>
+    <string name="action_settings">Settings</string>
+    <string name="result_text">Results displayed here</string>
+</resources>
