@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
@@ -28,8 +31,11 @@ import com.claudiusmbemba.irisdemo.helpers.NetworkHelper;
 import com.claudiusmbemba.irisdemo.helpers.RequestPackage;
 import com.claudiusmbemba.irisdemo.model.Classification;
 import com.claudiusmbemba.irisdemo.model.IrisData;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
     Button photoButton;
     Button urlButton;
     EditText urlText;
-    ImageView image;
+    CropImageView image;
     Bitmap bitmap;
+    Drawable d;
 
     public final String URL = "url";
     public final String IMAGE = "image";
@@ -91,7 +98,13 @@ public class MainActivity extends AppCompatActivity {
 
         networkOn = NetworkHelper.hasNetworkAccess(this);
 
-        image = (ImageView)findViewById(R.id.imageView);
+        image = (CropImageView) findViewById(R.id.imageView);
+        try {
+             d = Drawable.createFromStream(getAssets().open("apple.jpg"), null);
+            image.setImageBitmap(((BitmapDrawable)d).getBitmap());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         resultTV = (TextView) findViewById(R.id.resultText);
         photoButton = (Button) findViewById(R.id.photoButon);
         urlButton = (Button) findViewById(R.id.urlButton);
@@ -141,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             requestPackage.setEndPoint(String.format(ENDPOINT, IMAGE));
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             if(Build.MODEL.contains("x86")) {
-                bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+                bitmap = ((BitmapDrawable)d).getBitmap();
             }
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();
@@ -169,13 +182,27 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//            if (resultCode == RESULT_OK) {
+//                Uri resultUri = result.getUri();
+//            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//                Exception error = result.getError();
+//            }
+//        } else
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             bitmap = (Bitmap) extras.get("data");
             image.setImageBitmap(bitmap);
-            requestIrisService(IMAGE);
-            progressLoader();
+//            requestIrisService(IMAGE);
+//            progressLoader();
         }
+    }
+
+    public void getCrop(View v){
+        bitmap =  image.getCroppedImage();
+        requestIrisService(IMAGE);
+        progressLoader();
     }
 
     @Override
