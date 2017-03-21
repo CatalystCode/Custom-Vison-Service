@@ -26,7 +26,7 @@ public class HttpHelper {
 
         Request.Builder requestBuilder = new Request.Builder();
         //TODO: Change Me
-        requestBuilder.addHeader("Prediction-Key","a5427...");
+        requestBuilder.addHeader("Prediction-Key","1f63500d4fab43a095da927acd22aa60");
 
         if (requestPackage.getParams().containsKey("Url")){
             requestBuilder.addHeader("Content-Type","application/json");
