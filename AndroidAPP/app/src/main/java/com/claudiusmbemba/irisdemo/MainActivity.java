@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public final String URL = "url";
     public final String IMAGE = "image";
     public static final String TAG = "IRIS_LOGGER";
-    private final String ENDPOINT = "https://customvisionppe.azure-api.net/v1.0/Prediction/e7e9da08-dc38-4d1a-8274-7339cb0474c0/%s?iterationId=5606be21-ef44-4b51-b278-0f3a6565c5aa";
+    private final String ENDPOINT = "https://customvisionppe.azure-api.net/v1.0/Prediction/b33db6e4-2356-4473-a861-c2e2e84ddb59/%s?iterationId=cfd42493-b244-43f3-b892-bdc2c7d6132c";
     private final String NUTRIENDPOINT = "https://api.nutritionix.com/v1_1/search/%s";
 
     private void dispatchTakePictureIntent() {
