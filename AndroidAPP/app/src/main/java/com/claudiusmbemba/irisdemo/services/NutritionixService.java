@@ -2,22 +2,18 @@ package com.claudiusmbemba.irisdemo.services;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.Context;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.claudiusmbemba.irisdemo.helpers.HttpHelper;
 import com.claudiusmbemba.irisdemo.helpers.RequestPackage;
-import com.claudiusmbemba.irisdemo.model.IrisData;
+import com.claudiusmbemba.irisdemo.models.NutritionixData;
 import com.google.gson.Gson;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 
 public class NutritionixService extends IntentService {
 
-    public static final String NUTRITION_SERVICE_NAME = "nutrionixService";
-    public static final String NUTRITION_SERVICE_ERROR = "nutrionixServiceError";
-    public static final String NUTRITION_SERVICE_PAYLOAD = "nutrionixPaylod";
+    public static final String NUTRITION_SERVICE_NAME = "nutritionixService";
+    public static final String NUTRITION_SERVICE_ERROR = "nutritionixServiceError";
+    public static final String NUTRITION_SERVICE_PAYLOAD = "nutritionixPaylod";
     public static final String REQUEST_PACKAGE = "requestPackage";
 
     public NutritionixService() {
@@ -37,7 +33,8 @@ public class NutritionixService extends IntentService {
         try {
             response = HttpHelper.makeRequest(requestPackage, null);
             Gson gson = new Gson();
-            messageIntent.putExtra(NUTRITION_SERVICE_PAYLOAD, "Str");
+            NutritionixData nutritionixData = gson.fromJson(response, NutritionixData.class);
+            messageIntent.putExtra(NUTRITION_SERVICE_PAYLOAD, nutritionixData);
         } catch (Exception e) {
             e.printStackTrace();
             messageIntent.putExtra(NUTRITION_SERVICE_ERROR, e.getMessage());

@@ -2,12 +2,10 @@ package com.claudiusmbemba.irisdemo.helpers;
 
 import android.util.Log;
 
-import com.claudiusmbemba.irisdemo.model.NutritionixData;
+import com.claudiusmbemba.irisdemo.models.NutritionixData;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 

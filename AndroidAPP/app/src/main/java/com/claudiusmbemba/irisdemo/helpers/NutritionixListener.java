@@ -1,6 +1,6 @@
 package com.claudiusmbemba.irisdemo.helpers;
 
-import com.claudiusmbemba.irisdemo.model.NutritionixData;
+import com.claudiusmbemba.irisdemo.models.NutritionixData;
 
 /**
  * Created by jgadsby on 3/21/17.

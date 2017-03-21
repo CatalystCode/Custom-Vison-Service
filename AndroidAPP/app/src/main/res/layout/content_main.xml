@@ -69,8 +69,8 @@
     <com.theartofdev.edmodo.cropper.CropImageView
         xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView"
-        android:layout_width="277dp"
-        android:layout_height="211dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"

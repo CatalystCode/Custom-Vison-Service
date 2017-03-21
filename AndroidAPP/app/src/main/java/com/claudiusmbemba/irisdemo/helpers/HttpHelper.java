@@ -1,11 +1,15 @@
 package com.claudiusmbemba.irisdemo.helpers;
 
+import com.claudiusmbemba.irisdemo.MainActivity;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -17,6 +21,8 @@ import okio.Source;
 
 public class HttpHelper {
 
+    static Boolean iris;
+
     public static String makeRequest(RequestPackage requestPackage, InputStream data)
             throws Exception {
 
@@ -25,28 +31,35 @@ public class HttpHelper {
         OkHttpClient client = new OkHttpClient();
 
         Request.Builder requestBuilder = new Request.Builder();
-        requestBuilder.addHeader("Prediction-Key","1f63500d4fab43a095da927acd22aa60");
 
-        if (requestPackage.getParams().containsKey("Url")){
-            requestBuilder.addHeader("Content-Type","application/json");
-        } else {
-            requestBuilder.addHeader("Content-Type","application/octet-stream");
-        }
+        iris = (requestPackage.getParams().containsKey(MainActivity.IRIS_REQUEST)) ? true : false;
 
         if (requestPackage.getMethod().equals("POST")) {
             RequestBody requestBody = null;
-            if (requestPackage.getParams().containsKey("Url")) {
-                JSONObject json = new JSONObject(requestPackage.getParams());
-                requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(json));
-            } else {
-                if(data != null) {
-                    requestBody = RequestBodyUtil.create(MediaType.parse("application/octet-stream; charset=utf-8"), data);
+            if (iris) {
+                requestBuilder.addHeader("Prediction-Key", "1f63500d4fab43a095da927acd22aa60");
+                if (requestPackage.getParams().containsKey("Url")) {
+                    requestBuilder.addHeader("Content-Type","application/json");
+                    JSONObject json = new JSONObject(requestPackage.getParams());
+                    requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(json));
                 } else {
-                    throw new Exception("No image data found");
+                    if (data != null) {
+                        requestBuilder.addHeader("Content-Type","application/octet-stream");
+                        requestBody = RequestBodyUtil.create(MediaType.parse("application/octet-stream; charset=utf-8"), data);
+                    } else {
+                        throw new Exception("No image data found");
+                    }
                 }
+            } else {
+                MultipartBody.Builder builder = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM);
+                Map<String, String> params = requestPackage.getParams();
+                for (String key : params.keySet()) {
+                    builder.addFormDataPart(key, params.get(key));
+                }
+                requestBody = builder.build();
             }
             requestBuilder.method("POST", requestBody);
-
         } else if (requestPackage.getMethod().equals("GET")) {
             address = String.format("%s?%s", address, requestPackage.getEncodedParams());
         }
