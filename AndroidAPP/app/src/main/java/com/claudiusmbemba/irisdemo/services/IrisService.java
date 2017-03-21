@@ -1,4 +1,4 @@
-package com.claudiusmbemba.irisdemo;
+package com.claudiusmbemba.irisdemo.services;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -20,6 +20,7 @@ public class IrisService extends IntentService {
     public static final String IRIS_SERVICE_ERROR = "irisServiceError";
     public static final String REQUEST_PACKAGE = "requestPackage";
     public static final String REQUEST_IMAGE = "requestImage";
+    public static final String NUTRITION_REQUEST = "nutrionixPaylod";
 
 
     public IrisService() {

@@ -7,13 +7,9 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.DrawableRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +26,8 @@ import com.claudiusmbemba.irisdemo.helpers.NetworkHelper;
 import com.claudiusmbemba.irisdemo.helpers.RequestPackage;
 import com.claudiusmbemba.irisdemo.model.Classification;
 import com.claudiusmbemba.irisdemo.model.IrisData;
-import com.theartofdev.edmodo.cropper.CropImage;
+import com.claudiusmbemba.irisdemo.services.IrisService;
+import com.claudiusmbemba.irisdemo.services.NutritionixService;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -49,11 +45,13 @@ public class MainActivity extends AppCompatActivity {
     CropImageView image;
     Bitmap bitmap;
     Drawable d;
+    Classification food_result;
 
     public final String URL = "url";
     public final String IMAGE = "image";
     public static final String TAG = "IRIS_LOGGER";
     private final String ENDPOINT = "https://customvisionppe.azure-api.net/v1.0/Prediction/e7e9da08-dc38-4d1a-8274-7339cb0474c0/%s?iterationId=5606be21-ef44-4b51-b278-0f3a6565c5aa";
+    private final String NUTRIENDPOINT = "https://api.nutritionix.com/v1_1/search/%s";
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -69,12 +67,12 @@ public class MainActivity extends AppCompatActivity {
                 String msg = intent.getStringExtra(IrisService.IRIS_SERVICE_ERROR);
                 resultTV.setText(msg);
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-            }else {
+            }else if(intent.getExtras().containsKey(IrisService.IRIS_SERVICE_NAME)){
                 IrisData irisData = (IrisData) intent
                         .getParcelableExtra(IrisService.IRIS_SERVICE_PAYLOAD);
-                Classification result = irisData.getClassifications().get(0);
+                food_result = irisData.getClassifications().get(0);
                 clearText();
-                resultTV.append(String.format("I'm %.2f%% confident that this is a %s \n", result.getProbability() * 100, result.getClass_()));
+                resultTV.append(String.format("I'm %.2f%% confident that this is a %s \n", food_result.getProbability() * 100, food_result.getClass_()));
                 Log.i(TAG, irisData.getClassifications().toString());
             }
         }
@@ -184,6 +182,19 @@ public class MainActivity extends AppCompatActivity {
         bitmap =  image.getCroppedImage();
         requestIrisService(IMAGE);
         progressLoader();
+    }
+
+    public void showNutritionInfo(View v){
+        RequestPackage nutriRequest = new RequestPackage();
+        Intent intent = new Intent(this, NutritionixService.class);
+        nutriRequest.setEndPoint(String.format(NUTRIENDPOINT, food_result.getClass_()));
+        nutriRequest.setParam("fields","item_name%2Citem_id%2Cbrand_name%2Cnf_calories%2Cnf_total_fat");
+        nutriRequest.setMethod("GET");
+        intent.putExtra(IrisService.REQUEST_PACKAGE, nutriRequest);
+        startService(intent);
+
+        Intent nutri = new Intent(this, NutritionActivity.class);
+        startActivity(nutri);
     }
 
     @Override
