@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -32,16 +33,20 @@ import com.claudiusmbemba.irisdemo.services.IrisService;
 import com.claudiusmbemba.irisdemo.services.NutritionixService;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
     private boolean networkOn;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int SELECT_PICTURE = 2;
 
     TextView resultTV;
-    Button photoButton, urlButton, nutritionButton;
+    Button photoButton, urlButton, nutritionButton, galleryButton;
     EditText urlText;
     CropImageView image;
     Bitmap bitmap;
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FOOD_RESULT = "FOOD_RESULT";
     public static final String NUTRITION_RESULT = "NUTRITION_RESULT";
     public static final String IRIS_REQUEST = "IRIS_REQUEST";
+
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -122,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         nutritionButton.setEnabled(false);
         photoButton = (Button) findViewById(R.id.photoButon);
         urlButton = (Button) findViewById(R.id.urlButton);
+        galleryButton = (Button) findViewById(R.id.galleryButton);
         urlText = (EditText) findViewById(R.id.urlText);
         urlText.setText("http://www.statesymbolsusa.org/sites/statesymbolsusa.org/files/redrome.jpg");
 
@@ -202,6 +209,19 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             bitmap = (Bitmap) extras.get("data");
             image.setImageBitmap(bitmap);
+        } else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+            if (data == null) {
+                Toast.makeText(this, "Error Selecting Image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            try {
+                InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(data.getData());
+                bitmap = BitmapFactory.decodeStream(new BufferedInputStream(inputStream));
+                image.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                Toast.makeText(this, "Error Selecting Image", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }
     }
 
@@ -236,6 +256,20 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(IrisService.REQUEST_PACKAGE, nutriRequest);
         startService(intent);
     }
+
+    public void openGallery(View v){
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+
+        Intent chooserIntent = Intent.createChooser(getIntent, "Select An Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+
+        startActivityForResult(chooserIntent, SELECT_PICTURE);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
