@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/resultText"
         android:layout_width="337dp"
-        android:layout_height="80dp"
+        android:layout_height="53dp"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -21,7 +21,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="415dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_bias="0.516"
+        tools:layout_editor_absoluteY="442dp" />
 
     <Button
         android:id="@+id/photoButon"
@@ -31,11 +34,12 @@
         android:onClick="takePhoto"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="27dp"
-        android:layout_marginLeft="54dp"
+        android:layout_marginLeft="24dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/urlText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="24dp" />
 
     <Button
         android:id="@+id/urlButton"
@@ -48,13 +52,16 @@
         app:layout_constraintLeft_toRightOf="@+id/photoButon"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="27dp" />
+        android:layout_marginTop="27dp"
+        app:layout_constraintHorizontal_bias="0.931"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <EditText
         android:id="@+id/urlText"
-        android:layout_width="278dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="38dp"
+        android:layout_width="341dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:inputType="textUri"
         android:hint="Copy and paste url here"
@@ -62,21 +69,26 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.518"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <com.theartofdev.edmodo.cropper.CropImageView
         xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView"
-        android:layout_width="277dp"
-        android:layout_height="211dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="-118dp"
         app:layout_constraintTop_toBottomOf="@+id/urlText"
-        app:layout_constraintBottom_toTopOf="@+id/resultText" />
+        app:layout_constraintBottom_toTopOf="@+id/useCrop"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <Button
         android:id="@+id/useCrop"
@@ -93,6 +105,27 @@
         app:layout_constraintVertical_bias="1.0"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp" />
+
+    <Button
+        android:id="@+id/nutriButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nutrition"
+        android:onClick="showNutritionInfo"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/useCrop"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/resultText"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.909"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
 </android.support.constraint.ConstraintLayout>

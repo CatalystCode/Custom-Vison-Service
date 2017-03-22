@@ -1,4 +1,4 @@
-package com.claudiusmbemba.irisdemo.model;
+package com.claudiusmbemba.irisdemo.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 

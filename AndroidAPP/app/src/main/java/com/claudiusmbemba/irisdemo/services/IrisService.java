@@ -1,4 +1,4 @@
-package com.claudiusmbemba.irisdemo;
+package com.claudiusmbemba.irisdemo.services;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -6,11 +6,10 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.claudiusmbemba.irisdemo.helpers.HttpHelper;
 import com.claudiusmbemba.irisdemo.helpers.RequestPackage;
-import com.claudiusmbemba.irisdemo.model.IrisData;
+import com.claudiusmbemba.irisdemo.models.IrisData;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 public class IrisService extends IntentService {
@@ -20,7 +19,6 @@ public class IrisService extends IntentService {
     public static final String IRIS_SERVICE_ERROR = "irisServiceError";
     public static final String REQUEST_PACKAGE = "requestPackage";
     public static final String REQUEST_IMAGE = "requestImage";
-
 
     public IrisService() {
         super("IrisService");
