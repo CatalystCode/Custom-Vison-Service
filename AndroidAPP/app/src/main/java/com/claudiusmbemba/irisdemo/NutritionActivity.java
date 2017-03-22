@@ -15,22 +15,31 @@ import com.claudiusmbemba.irisdemo.models.Fields;
 import com.claudiusmbemba.irisdemo.models.Hit;
 import com.claudiusmbemba.irisdemo.models.NutritionixData;
 import com.claudiusmbemba.irisdemo.services.NutritionixService;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NutritionActivity extends AppCompatActivity {
 
     String food_item;
-    PieChart chart;
+    BarChart chart;
 
 
     @Override
@@ -40,23 +49,34 @@ public class NutritionActivity extends AppCompatActivity {
 
         food_item = (String) getIntent().getStringExtra(MainActivity.FOOD_RESULT);
 
-        chart = (PieChart) findViewById(R.id.chart);
-
+        chart = (BarChart) findViewById(R.id.chart);
+//        prepareChartData();
         prepareChartData((Hit)getIntent().getParcelableExtra(MainActivity.NUTRITION_RESULT));
     }
 
     public void prepareChartData(Hit hit){
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+//    public void prepareChartData(){
+        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
 
-        entries.add(new PieEntry((float) hit.getFields().getNfCalories(), "Calories"));
-        entries.add(new PieEntry((float) hit.getFields().getNfTotalFat(), "Total Fat"));
+        entries.add(new BarEntry(0, Float.parseFloat(df.format((hit.getFields().getNfCalories()/2000)*100)),"Calories"));
+        entries.add(new BarEntry(1, Float.parseFloat(df.format((hit.getFields().getNfTotalFat()/65)*100)), "Fat(g)"));
+        entries.add(new BarEntry(2, Float.parseFloat(df.format((hit.getFields().getNfCholesterol()/300)*100)), "Cholesterol(mg)"));
+        entries.add(new BarEntry(3, Float.parseFloat(df.format((hit.getFields().getNfSodium()/2400)*100)), "Sodium(mg)"));
+        entries.add(new BarEntry(4, Float.parseFloat(df.format((hit.getFields().getNfTotalCarbohydrate()/300)*100)), "Carbs(g)"));
+        entries.add(new BarEntry(5, (float) hit.getFields().getNfSodium(), "Sugars"));
+        entries.add(new BarEntry(6, Float.parseFloat(df.format((hit.getFields().getNfProtein()/50)*100)), "Protein(g)"));
+        entries.add(new BarEntry(7, (float) hit.getFields().getNfVitaminADv(), "VitaminA(mg)"));
+        entries.add(new BarEntry(8, (float) hit.getFields().getNfVitaminCDv(), "VitaminC(mg)"));
+        entries.add(new BarEntry(9, (float) hit.getFields().getNfCalciumDv(), "Calcium(mg)"));
 
-        PieDataSet dataSet = new PieDataSet(entries, "");
+        BarDataSet dataSet = new BarDataSet(entries, "Hello World");
 
         setChartData(dataSet);
     }
 
-    public void setChartData(PieDataSet dataSet){
+    public void setChartData(BarDataSet dataSet){
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
@@ -75,38 +95,48 @@ public class NutritionActivity extends AppCompatActivity {
             colors.add(c);
 
         colors.add(ColorTemplate.getHoloBlue());
-
         dataSet.setColors(colors);
 
-        PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(20f);
-        data.setValueTextColor(Color.BLACK);
+//        chart.setDrawBarShadow(false);
+        chart.setDrawValueAboveBar(true);
+
+        chart.getDescription().setEnabled(false);
+
+        chart.setMaxVisibleValueCount(10);
+
+        chart.setPinchZoom(false);
+        chart.setDrawGridBackground(false);
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTypeface(Typeface.MONOSPACE);
+        xAxis.setDrawGridLines(false);
+        xAxis.setLabelCount(7);
+//        xAxis.setTextSize(20f);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"Calories", "Fat", "Cholesterol", "Sodium",
+                "Carbs", "Sugars", "Protein", "VitaminA", "VitaminC", "Calcium"}));
+
+        IAxisValueFormatter custom = new PercentFormatter();
+
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setTypeface(Typeface.MONOSPACE);
+        leftAxis.setLabelCount(5, false);
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setValueFormatter(custom);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setSpaceTop(5f);
+        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+        chart.getLegend().setEnabled(false);
+        chart.getAxisRight().setDrawLabels(false);
+        chart.getAxisRight().setDrawGridLines(false);
+
+        BarData data = new BarData(dataSet);
+        data.setValueTextSize(10f);
         data.setValueTypeface(Typeface.MONOSPACE);
+        data.setBarWidth(0.9f);
 
-        chart.setUsePercentValues(true);
-        chart.setCenterTextTypeface(Typeface.MONOSPACE);
-        chart.getDescription().setEnabled(true);
         chart.setData(data);
-        chart.highlightValues(null);
-        chart.setEntryLabelTextSize(15f);
-        chart.setEntryLabelColor(Color.BLACK);
-        chart.setCenterText(String.format("%s %s", food_item, "Results").toUpperCase());
-        chart.setCenterTextColor(Color.BLACK);
-        chart.setCenterTextSize(20f);
         chart.invalidate();
-
-        //Legend
-        Legend l = chart.getLegend();
-        l.setFormSize(10f); // set the size of the legend forms/shapes
-        l.setForm(Legend.LegendForm.CIRCLE); // set what type of form/shape should be used
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setTextSize(15f);
-        l.setDrawInside(false);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(0f);
-        l.setYOffset(0f);
     }
 }

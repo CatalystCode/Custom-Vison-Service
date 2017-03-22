@@ -78,10 +78,9 @@ public class MainActivity extends AppCompatActivity {
                         .getParcelableExtra(IrisService.IRIS_SERVICE_PAYLOAD);
                 food_result = irisData.getClassifications().get(0);
                 clearText();
-                String msg = String.format("I'm %.2f%% confident that this is a %s \n", food_result.getProbability() * 100, food_result.getClass_());
+                String msg = String.format("I'm %.0f%% confident that this is a %s \n", food_result.getProbability() * 100, food_result.getClass_());
                 resultTV.append(msg);
                 Log.i(TAG, irisData.getClassifications().toString());
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 requestNutritionInfo();
             }
         }
@@ -227,7 +226,10 @@ public class MainActivity extends AppCompatActivity {
         RequestPackage nutriRequest = new RequestPackage();
         Intent intent = new Intent(this, NutritionixService.class);
         nutriRequest.setEndPoint(String.format(NUTRI_ENDPOINT, food_result.getClass_()));
-        nutriRequest.setParam("fields","item_name,item_id,brand_name,nf_calories,nf_total_fat,nf_calories_from_fat,nf_total_fat,nf_saturated_fat,nf_monounsaturated_fat,nf_polyunsaturated_fat,nf_trans_fatty_acid,nf_cholesterol,nf_sodium,nf_total_carbohydrate,nf_dietary_fiber,nf_sugars,nf_protein,nf_vitamin_a_dv,nf_vitamin_c_dv,nf_calcium_dv,nf_iron_dv,nf_potassium");
+        nutriRequest.setParam("fields","item_name,item_id,brand_name,nf_calories,nf_total_fat," +
+                "nf_calories_from_fat,nf_saturated_fat,nf_monounsaturated_fat,nf_polyunsaturated_fat," +
+                "nf_trans_fatty_acid,nf_cholesterol,nf_sodium,nf_total_carbohydrate,nf_dietary_fiber," +
+                "nf_sugars,nf_protein,nf_vitamin_a_dv,nf_vitamin_c_dv,nf_calcium_dv,nf_iron_dv,nf_potassium");
         nutriRequest.setParam("appId","f7292d95");
         nutriRequest.setParam("appKey", "9927906f82d77be0f0239d5a4dd71179");
         nutriRequest.setMethod("GET");

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.claudiusmbemba.irisdemo.NutritionActivity">
 
-    <com.github.mikephil.charting.charts.PieChart
+    <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

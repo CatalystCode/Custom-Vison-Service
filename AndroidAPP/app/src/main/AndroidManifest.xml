@@ -36,7 +36,7 @@
 
         <service
             android:name=".services.NutritionixService"
-            android:exported="false"></service>
+            android:exported="false" />
     </application>
 
 </manifest>

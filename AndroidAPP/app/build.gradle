@@ -32,5 +32,4 @@ dependencies {
     compile 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
     testCompile 'junit:junit:4.12'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
-    compile 'com.loopj.android:android-async-http:1.4.9'
 }
