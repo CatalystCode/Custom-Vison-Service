@@ -62,13 +62,13 @@ public class NutritionActivity extends AppCompatActivity {
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
 
-        entries.add(new BarEntry(0, Float.parseFloat(df.format((hit.getFields().getNfCalories()/2000)*100))));
-        entries.add(new BarEntry(1, Float.parseFloat(df.format((hit.getFields().getNfTotalFat()/65)*100)), "(g)"));
-        entries.add(new BarEntry(2, Float.parseFloat(df.format((hit.getFields().getNfCholesterol()/300)*100)), "(mg)"));
-        entries.add(new BarEntry(3, Float.parseFloat(df.format((hit.getFields().getNfSodium()/2400)*100)), "(mg)"));
-        entries.add(new BarEntry(4, Float.parseFloat(df.format((hit.getFields().getNfTotalCarbohydrate()/300)*100)), "(g)"));
-        entries.add(new BarEntry(5, (float) hit.getFields().getNfSugars()));
-        entries.add(new BarEntry(6, Float.parseFloat(df.format((hit.getFields().getNfProtein()/50)*100)), "(g)"));
+        entries.add(new BarEntry(0, (float) (hit.getFields().getNfCalories()/2000)*100));
+        entries.add(new BarEntry(1, (float) (hit.getFields().getNfTotalFat()/65)*100));
+        entries.add(new BarEntry(2, (float) (hit.getFields().getNfCholesterol()/300)*100));
+        entries.add(new BarEntry(3, (float)(hit.getFields().getNfSodium()/2400)*100));
+        entries.add(new BarEntry(4, (float)(hit.getFields().getNfTotalCarbohydrate()/300)*100));
+        entries.add(new BarEntry(5, (float) hit.getFields().getNfSodium()));
+        entries.add(new BarEntry(6, (float) (hit.getFields().getNfProtein()/50)*100));
 //        entries.add(new BarEntry(7, (float) hit.getFields().getNfVitaminADv(), "(mg)"));
 //        entries.add(new BarEntry(8, (float) hit.getFields().getNfVitaminCDv(), "(mg)"));
 //        entries.add(new BarEntry(9, (float) hit.getFields().getNfCalciumDv(), "(mg)"));
