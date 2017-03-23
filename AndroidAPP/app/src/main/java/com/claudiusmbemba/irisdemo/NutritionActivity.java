@@ -107,7 +107,7 @@ public class NutritionActivity extends AppCompatActivity {
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTypeface(Typeface.MONOSPACE);
+        xAxis.setTypeface(Typeface.DEFAULT);
         xAxis.setDrawGridLines(false);
         xAxis.setLabelCount(7);
 //        xAxis.setTextSize(20f);
@@ -117,7 +117,7 @@ public class NutritionActivity extends AppCompatActivity {
         IAxisValueFormatter custom = new PercentFormatter();
 
         YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setTypeface(Typeface.MONOSPACE);
+        leftAxis.setTypeface(Typeface.DEFAULT);
         leftAxis.setLabelCount(5, false);
         leftAxis.setDrawGridLines(true);
         leftAxis.setValueFormatter(custom);
@@ -132,7 +132,7 @@ public class NutritionActivity extends AppCompatActivity {
 
         BarData data = new BarData(dataSet);
         data.setValueTextSize(10f);
-        data.setValueTypeface(Typeface.MONOSPACE);
+        data.setValueTypeface(Typeface.DEFAULT);
         data.setBarWidth(0.9f);
 
         chart.setData(data);
