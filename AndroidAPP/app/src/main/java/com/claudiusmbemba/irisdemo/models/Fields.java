@@ -31,7 +31,7 @@ public class Fields implements Parcelable {
     private double nfSaturatedFat;
     @SerializedName("nf_trans_fatty_acid")
     @Expose
-    private int nfTransFattyAcid;
+    private double nfTransFattyAcid;
     @SerializedName("nf_polyunsaturated_fat")
     @Expose
     private double nfPolyunsaturatedFat;
@@ -40,7 +40,7 @@ public class Fields implements Parcelable {
     private double nfMonounsaturatedFat;
     @SerializedName("nf_cholesterol")
     @Expose
-    private int nfCholesterol;
+    private double nfCholesterol;
     @SerializedName("nf_sodium")
     @Expose
     private double nfSodium;
@@ -70,7 +70,7 @@ public class Fields implements Parcelable {
     private double nfIronDv;
     @SerializedName("nf_serving_size_qty")
     @Expose
-    private int nfServingSizeQty;
+    private double nfServingSizeQty;
     @SerializedName("nf_serving_size_unit")
     @Expose
     private String nfServingSizeUnit;
@@ -131,7 +131,7 @@ public class Fields implements Parcelable {
         this.nfSaturatedFat = nfSaturatedFat;
     }
 
-    public int getNfTransFattyAcid() {
+    public double getNfTransFattyAcid() {
         return nfTransFattyAcid;
     }
 
@@ -155,7 +155,7 @@ public class Fields implements Parcelable {
         this.nfMonounsaturatedFat = nfMonounsaturatedFat;
     }
 
-    public int getNfCholesterol() {
+    public double getNfCholesterol() {
         return nfCholesterol;
     }
 
@@ -235,7 +235,7 @@ public class Fields implements Parcelable {
         this.nfIronDv = nfIronDv;
     }
 
-    public int getNfServingSizeQty() {
+    public double getNfServingSizeQty() {
         return nfServingSizeQty;
     }
 
@@ -265,10 +265,10 @@ public class Fields implements Parcelable {
         dest.writeDouble(this.nfCaloriesFromFat);
         dest.writeDouble(this.nfTotalFat);
         dest.writeDouble(this.nfSaturatedFat);
-        dest.writeInt(this.nfTransFattyAcid);
+        dest.writeDouble(this.nfTransFattyAcid);
         dest.writeDouble(this.nfPolyunsaturatedFat);
         dest.writeDouble(this.nfMonounsaturatedFat);
-        dest.writeInt(this.nfCholesterol);
+        dest.writeDouble(this.nfCholesterol);
         dest.writeDouble(this.nfSodium);
         dest.writeDouble(this.nfTotalCarbohydrate);
         dest.writeDouble(this.nfDietaryFiber);
@@ -278,7 +278,7 @@ public class Fields implements Parcelable {
         dest.writeDouble(this.nfVitaminCDv);
         dest.writeDouble(this.nfCalciumDv);
         dest.writeDouble(this.nfIronDv);
-        dest.writeInt(this.nfServingSizeQty);
+        dest.writeDouble(this.nfServingSizeQty);
         dest.writeString(this.nfServingSizeUnit);
     }
 

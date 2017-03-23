@@ -9,10 +9,13 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.TransactionTooLargeException;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -27,9 +30,15 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.ViewTarget;
 import com.claudiusmbemba.irisdemo.helpers.NetworkHelper;
 import com.claudiusmbemba.irisdemo.helpers.RequestPackage;
 import com.claudiusmbemba.irisdemo.models.Classification;
@@ -55,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int SELECT_PICTURE = 2;
 
     TextView resultTV;
-    ImageButton photoButton, urlButton, nutritionButton, galleryButton;
+    ImageButton photoButton, urlButton, nutritionButton, galleryButton, cropButton;
     EditText urlText;
     CropImageView image;
     Bitmap bitmap;
@@ -67,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     public final String URL = "url";
     public final String IMAGE = "image";
     public static final String TAG = "IRIS_LOGGER";
-    private final String ENDPOINT = "https://customvisionppe.azure-api.net/v1.0/Prediction/068bd2e9-3c88-4d1b-bd17-d6f9eabc7e98/%s?iterationId=6605fa2d-ef65-415a-8d42-8e85aa5e4ca9";
+    private final String ENDPOINT = "https://customvisionppe.azure-api.net/v1.0/Prediction/068bd2e9-3c88-4d1b-bd17-d6f9eabc7e98/%s?iterationId=bc07545e-e20e-4959-8729-578bf07fa1be";
     private final String NUTRI_ENDPOINT = "https://api.nutritionix.com/v1_1/search/%s";
     public static final String FOOD_RESULT = "FOOD_RESULT";
     public static final String NUTRITION_RESULT = "NUTRITION_RESULT";
@@ -85,24 +94,31 @@ public class MainActivity extends AppCompatActivity {
 
     private BroadcastReceiver irisReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getExtras().containsKey(IrisService.IRIS_SERVICE_ERROR)) {
-                String msg = intent.getStringExtra(IrisService.IRIS_SERVICE_ERROR);
-                resultTV.setText(msg);
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-            } else if (intent.getExtras().containsKey(IrisService.IRIS_SERVICE_PAYLOAD)) {
-                IrisData irisData = (IrisData) intent
-                        .getParcelableExtra(IrisService.IRIS_SERVICE_PAYLOAD);
-                food_result = irisData.getClassifications().get(0);
-                clearText();
-                String msg = String.format("I'm %.0f%% confident that this is a %s \n", food_result.getProbability() * 100, food_result.getClass_());
-                resultTV.append(msg);
+        public void onReceive(Context context, final Intent intent) {
 
-                for (int i = 0; i < irisData.getClassifications().size(); i++) {
-                    Log.i(TAG, "onReceive: " + irisData.getClassifications().get(i).getClass_());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (intent.getExtras().containsKey(IrisService.IRIS_SERVICE_ERROR)) {
+                        String msg = intent.getStringExtra(IrisService.IRIS_SERVICE_ERROR);
+                        resultTV.setText(msg);
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                    } else if (intent.getExtras().containsKey(IrisService.IRIS_SERVICE_PAYLOAD)) {
+                        IrisData irisData = (IrisData) intent
+                                .getParcelableExtra(IrisService.IRIS_SERVICE_PAYLOAD);
+                        food_result = irisData.getClassifications().get(0);
+                        clearText();
+                        String msg = String.format("I'm %.0f%% confident that this is a %s \n", food_result.getProbability() * 100, food_result.getClass_());
+                        resultTV.append(msg);
+
+                        for (int i = 0; i < irisData.getClassifications().size(); i++) {
+                            Log.i(TAG, "onReceive: " + irisData.getClassifications().get(i).getClass_());
+                        }
+                        requestNutritionInfo();
+                    }
                 }
-                requestNutritionInfo();
-            }
+            });
+
         }
     };
 
@@ -136,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             d = Drawable.createFromStream(getAssets().open("apple.jpg"), null);
             image.setImageBitmap(((BitmapDrawable) d).getBitmap());
+            bitmap = ((BitmapDrawable) d).getBitmap();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -154,6 +171,13 @@ public class MainActivity extends AppCompatActivity {
                     resultTV.setVisibility(View.GONE);
                     takePhoto();
                 }
+            }
+        });
+        cropButton = (ImageButton) findViewById(R.id.useCrop);
+        cropButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCrop(v);
             }
         });
         urlButton = (ImageButton) findViewById(R.id.urlButton);
@@ -198,6 +222,9 @@ public class MainActivity extends AppCompatActivity {
         clearText();
         if (networkOn) {
             if (!urlText.getText().toString().equals("")) {
+
+                new DownloadImageTask().execute(urlText.getText().toString());
+
                 progressLoader();
                 requestIrisService(URL);
             } else {
@@ -215,29 +242,73 @@ public class MainActivity extends AppCompatActivity {
         broadcastManager.unregisterReceiver(nutritionixReceiver);
     }
 
-    private void requestIrisService(String type) {
+    private void requestIrisService(final String type) {
 
-        RequestPackage requestPackage = new RequestPackage();
-        Intent intent = new Intent(this, IrisService.class);
-        requestPackage.setParam(IRIS_REQUEST, "IRIS");
+        final Bitmap croppedImage = image.getCroppedImage();
 
-        if (type.equals(URL)) {
-            requestPackage.setEndPoint(String.format(ENDPOINT, URL));
-            requestPackage.setParam("Url", urlText.getText().toString());
-        } else if (type.equals(IMAGE)) {
-            requestPackage.setEndPoint(String.format(ENDPOINT, IMAGE));
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            if (Build.MODEL.contains("x86")) {
-                bitmap = ((BitmapDrawable) d).getBitmap();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                RequestPackage requestPackage = new RequestPackage();
+                Intent intent = new Intent(MainActivity.this, IrisService.class);
+                requestPackage.setParam(IRIS_REQUEST, "IRIS");
+
+                if (type.equals(URL)) {
+                    requestPackage.setEndPoint(String.format(ENDPOINT, URL));
+                    requestPackage.setParam("Url", urlText.getText().toString());
+                } else if (type.equals(IMAGE)) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    Log.d(TAG, "requestIrisService: byte array size = " + byteArray.length);
+                    requestPackage.setEndPoint(String.format(ENDPOINT, IMAGE));
+                    intent.putExtra(IrisService.REQUEST_IMAGE, byteArray);
+                }
+
+                requestPackage.setMethod("POST");
+                intent.putExtra(IrisService.REQUEST_PACKAGE, requestPackage);
+
+                try {
+                    startService(intent);
+                } catch (Exception e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            resultTV.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(), "Image too large.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    e.printStackTrace();
+                }
             }
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            intent.putExtra(IrisService.REQUEST_IMAGE, byteArray);
+        });
+
+
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+
+
+        public DownloadImageTask() {
         }
 
-        requestPackage.setMethod("POST");
-        intent.putExtra(IrisService.REQUEST_PACKAGE, requestPackage);
-        startService(intent);
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            image.setImageBitmap(result);
+        }
     }
 
     public void takePhoto() {
@@ -254,12 +325,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            bitmap = (Bitmap) extras.get("data");
-            image.setImageBitmap(bitmap);
+
+            image.setImageUriAsync(data.getData());
+            bitmap = image.getCroppedImage();
+//            bitmap = (Bitmap) extras.get("data");
+//            image.setImageBitmap(bitmap);
         } else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             if (data == null) {
                 Toast.makeText(this, "Error Selecting Image", Toast.LENGTH_SHORT).show();
@@ -267,8 +363,14 @@ public class MainActivity extends AppCompatActivity {
             }
             try {
                 InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(data.getData());
-                bitmap = BitmapFactory.decodeStream(new BufferedInputStream(inputStream));
-                image.setImageBitmap(bitmap);
+                if (inputStream != null) {
+                    image.setImageUriAsync(data.getData());
+                    bitmap = image.getCroppedImage();
+//                    bitmap = BitmapFactory.decodeStream(new BufferedInputStream(inputStream));
+//                    image.setImageBitmap(bitmap);
+                } else {
+                    Toast.makeText(this, "Error Selecting Image", Toast.LENGTH_SHORT).show();
+                }
             } catch (FileNotFoundException e) {
                 Toast.makeText(this, "Error Selecting Image", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
@@ -294,7 +396,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getCrop(View v) {
-        bitmap = image.getCroppedImage();
         requestIrisService(IMAGE);
         progressLoader();
     }
