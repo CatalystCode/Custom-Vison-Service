@@ -34,11 +34,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.ViewTarget;
 import com.claudiusmbemba.irisdemo.helpers.NetworkHelper;
 import com.claudiusmbemba.irisdemo.helpers.RequestPackage;
 import com.claudiusmbemba.irisdemo.models.Classification;
