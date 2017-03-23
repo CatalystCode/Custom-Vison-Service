@@ -15,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.TransactionTooLargeException;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -24,13 +23,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +42,6 @@ import com.claudiusmbemba.irisdemo.services.IrisService;
 import com.claudiusmbemba.irisdemo.services.NutritionixService;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -200,6 +197,17 @@ public class MainActivity extends AppCompatActivity {
         urlText = (EditText) findViewById(R.id.urlText);
         urlText.setText("http://www.statesymbolsusa.org/sites/statesymbolsusa.org/files/redrome.jpg");
 
+        urlText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    new DownloadImageTask().execute(urlText.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
+
         broadcastManager.registerReceiver(irisReceiver, new IntentFilter(IrisService.IRIS_SERVICE_NAME));
         broadcastManager.registerReceiver(nutritionixReceiver, new IntentFilter(NutritionixService.NUTRITION_SERVICE_NAME));
     }
@@ -217,9 +225,6 @@ public class MainActivity extends AppCompatActivity {
         clearText();
         if (networkOn) {
             if (!urlText.getText().toString().equals("")) {
-
-                new DownloadImageTask().execute(urlText.getText().toString());
-
                 progressLoader();
                 requestIrisService(URL);
             } else {
@@ -283,7 +288,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-
 
         public DownloadImageTask() {
         }
