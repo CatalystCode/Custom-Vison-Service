@@ -45,7 +45,7 @@ Your url will look like this and either contain the string 'url' or 'image'.
 ```
 "https://customvisionppe.azure-api.net/v1.0/Prediction/bccc6a..../url?iterationId=f5b74fd3..."
 ```
-Change ('url' or 'image') to this:
+Change 'url?' or 'image?' to "%s?". The code will replace "%s" with either "url" or "image" automatically.
 ```
 "https://customvisionppe.azure-api.net/v1.0/Prediction/bccc6a..../%s?iterationId=f5b74fd3..."
 ```
