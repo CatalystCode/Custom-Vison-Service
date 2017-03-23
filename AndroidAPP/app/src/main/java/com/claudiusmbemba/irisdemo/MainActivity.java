@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
             if (Build.MODEL.contains("x86")) {
                 bitmap = ((BitmapDrawable) d).getBitmap();
             }
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
             byte[] byteArray = stream.toByteArray();
             intent.putExtra(IrisService.REQUEST_IMAGE, byteArray);
         }
