@@ -69,9 +69,9 @@ public class NutritionActivity extends AppCompatActivity {
         entries.add(new BarEntry(4, Float.parseFloat(df.format((hit.getFields().getNfTotalCarbohydrate()/300)*100)), "(g)"));
         entries.add(new BarEntry(5, (float) hit.getFields().getNfSugars()));
         entries.add(new BarEntry(6, Float.parseFloat(df.format((hit.getFields().getNfProtein()/50)*100)), "(g)"));
-        entries.add(new BarEntry(7, (float) hit.getFields().getNfVitaminADv(), "(mg)"));
-        entries.add(new BarEntry(8, (float) hit.getFields().getNfVitaminCDv(), "(mg)"));
-        entries.add(new BarEntry(9, (float) hit.getFields().getNfCalciumDv(), "(mg)"));
+//        entries.add(new BarEntry(7, (float) hit.getFields().getNfVitaminADv(), "(mg)"));
+//        entries.add(new BarEntry(8, (float) hit.getFields().getNfVitaminCDv(), "(mg)"));
+//        entries.add(new BarEntry(9, (float) hit.getFields().getNfCalciumDv(), "(mg)"));
 
         BarDataSet dataSet = new BarDataSet(entries, String.format("%s Nutrition", food_item).toUpperCase());
 
@@ -104,7 +104,7 @@ public class NutritionActivity extends AppCompatActivity {
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                Toast.makeText(getApplicationContext(), String.format("%.0f",e.getY()), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), String.format("%.0f",e.getY()), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -126,7 +126,7 @@ public class NutritionActivity extends AppCompatActivity {
         xAxis.setLabelCount(7);
 //        xAxis.setTextSize(20f);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"Calories", "Fat", "Cholesterol", "Sodium",
-                "Carbs", "Sugars", "Protein", "VitaminA", "VitaminC", "Calcium"}));
+                "Carbs", "Sugars", "Protein"}));//, "VitaminA", "VitaminC", "Calcium"}));
 
         IAxisValueFormatter custom = new PercentFormatter();
 
@@ -138,7 +138,7 @@ public class NutritionActivity extends AppCompatActivity {
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(2f);
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-        leftAxis.setAxisMaximum(100f);
+//        leftAxis.setAxisMaximum(100f);
 
         chart.getLegend().setEnabled(false);
         chart.getAxisRight().setDrawLabels(false);
