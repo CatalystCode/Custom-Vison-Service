@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public final String URL = "url";
     public final String IMAGE = "image";
     public static final String TAG = "IRIS_LOGGER";
-    private final String ENDPOINT = "https://customvisionppe.azure-api.net/v1.0/Prediction/b33db6e4-2356-4473-a861-c2e2e84ddb59/%s?iterationId=cfd42493-b244-43f3-b892-bdc2c7d6132c";
+    private final String ENDPOINT = "https://customvisionppe.azure-api.net/v1.0/Prediction/068bd2e9-3c88-4d1b-bd17-d6f9eabc7e98/%s?iterationId=6605fa2d-ef65-415a-8d42-8e85aa5e4ca9";
     private final String NUTRI_ENDPOINT = "https://api.nutritionix.com/v1_1/search/%s";
     public static final String FOOD_RESULT = "FOOD_RESULT";
     public static final String NUTRITION_RESULT = "NUTRITION_RESULT";
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            resultTV.setVisibility(View.GONE);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
@@ -96,7 +97,10 @@ public class MainActivity extends AppCompatActivity {
                 clearText();
                 String msg = String.format("I'm %.0f%% confident that this is a %s \n", food_result.getProbability() * 100, food_result.getClass_());
                 resultTV.append(msg);
-                Log.i(TAG, irisData.getClassifications().toString());
+
+                for (int i = 0; i < irisData.getClassifications().size(); i++) {
+                    Log.i(TAG, "onReceive: " + irisData.getClassifications().get(i).getClass_());
+                }
                 requestNutritionInfo();
             }
         }
@@ -147,11 +151,19 @@ public class MainActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(thisActivity,
                             new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_CLICK_REQUEST_CODE);
                 } else {
+                    resultTV.setVisibility(View.GONE);
                     takePhoto();
                 }
             }
         });
         urlButton = (ImageButton) findViewById(R.id.urlButton);
+        urlButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultTV.setVisibility(View.GONE);
+                openUrl();
+            }
+        });
         galleryButton = (ImageButton) findViewById(R.id.galleryButton);
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(thisActivity,
                             new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, GALLERY_CLICK_REQUEST_CODE);
                 } else {
+                    resultTV.setVisibility(View.GONE);
                     openGallery();
                 }
             }
@@ -177,10 +190,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void progressLoader() {
+        resultTV.setVisibility(View.VISIBLE);
         resultTV.setText("Thinking...");
     }
 
-    public void openUrl(View v) {
+    public void openUrl() {
         clearText();
         if (networkOn) {
             if (!urlText.getText().toString().equals("")) {
@@ -202,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestIrisService(String type) {
+
         RequestPackage requestPackage = new RequestPackage();
         Intent intent = new Intent(this, IrisService.class);
         requestPackage.setParam(IRIS_REQUEST, "IRIS");
