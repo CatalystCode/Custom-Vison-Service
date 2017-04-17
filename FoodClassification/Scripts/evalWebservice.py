@@ -51,8 +51,8 @@ def plot_confusion_matrix(cm, classes,
     plt.xlabel('Predicted label')
 
 MAX_Iterations = 200000
-endpoint = "https://customvisionppe.azure-api.net/v1.0/Prediction/a275583f-7105-474a-999c-83c9430a03b0/image?iterationId=954d73b5-0adf-4dbd-8a5a-336554c3ba01"
-key = '1f63500d4fab43a095da927acd22aa60'
+endpoint = "https://customvisionppe.azure-api.net/v1.0/Prediction/a275583f-7105-474.../image?iterationId=954d73b5-0adf..."
+key = '1f63500...'
 
 print("Reading input csv with images paths and labels")
 filePath = sys.argv[1] #"D:\\repos\\IRISDemo\\EvalWebservice\\EvalWebservice\\images.csv"
@@ -77,14 +77,14 @@ for index, row in df.iterrows():
     start_time_req = time.time()
     resp = requests.post(endpoint,
                     data=data,
-                    headers={'Content-Type':'application/octet-stream', 'Prediction-Key': key})  
-    elapsed_time_req = time.time() - start_time  
+                    headers={'Content-Type':'application/octet-stream', 'Prediction-Key': key})
+    elapsed_time_req = time.time() - start_time
     if index % 10 == 0:
      print("elapsed time  for req # {0} is {1}".format(index, elapsed_time_req))
   except Exception as e:
     print("Error opening file or sending request")
     print(e.__doc__)
-    print(e.message) 
+    print(e.message)
   if  resp != None and resp.status_code == requests.codes.ok:
     jsonResponse = resp.json()
     try:
@@ -118,4 +118,4 @@ plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
 
 plt.show()
 
-input("All done. Press any key...") 
+input("All done. Press any key...")
