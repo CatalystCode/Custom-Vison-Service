@@ -64,7 +64,9 @@ requestBuilder.addHeader("Prediction-Key","a5427...");
 ```
 
 Update that line to use your Prediction Key Value.
+
 At this point the app will work with the Microsoft Custom Vision Service just fine.
+
 But if you want to use the [Nutritionix Api](https://www.nutritionix.com/business/api) to see nutrition information then update the following...
 
 Locate the following file:
