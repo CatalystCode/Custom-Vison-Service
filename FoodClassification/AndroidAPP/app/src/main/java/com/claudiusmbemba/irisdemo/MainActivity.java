@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
     public final String URL = "url";
     public final String IMAGE = "image";
     public static final String TAG = "IRIS_LOGGER";
-    private final String ENDPOINT = "https://customvisionppe.azure-api.net/v1.0/Prediction/068bd2e9-3c88-4d1b-bd17-d6f9eabc7e98/%s?iterationId=bc07545e-e20e-4959-8729-578bf07fa1be";
+    //TODO: CHANGE ME!!
+    private final String ENDPOINT = "your-iris-endpoint-url";
     private final String NUTRI_ENDPOINT = "https://api.nutritionix.com/v1_1/search/%s";
     public static final String FOOD_RESULT = "FOOD_RESULT";
     public static final String NUTRITION_RESULT = "NUTRITION_RESULT";
@@ -418,8 +419,9 @@ public class MainActivity extends AppCompatActivity {
                 "nf_calories_from_fat,nf_saturated_fat,nf_monounsaturated_fat,nf_polyunsaturated_fat," +
                 "nf_trans_fatty_acid,nf_cholesterol,nf_sodium,nf_total_carbohydrate,nf_dietary_fiber," +
                 "nf_sugars,nf_protein,nf_vitamin_a_dv,nf_vitamin_c_dv,nf_calcium_dv,nf_iron_dv,nf_potassium");
-        nutriRequest.setParam("appId", "f7292d95");
-        nutriRequest.setParam("appKey", "9927906f82d77be0f0239d5a4dd71179");
+        //TODO: CHANGE ME!!
+        nutriRequest.setParam("appId", "f72...");
+        nutriRequest.setParam("appKey", "9927906...");
         nutriRequest.setMethod("GET");
         intent.putExtra(IrisService.REQUEST_PACKAGE, nutriRequest);
         startService(intent);

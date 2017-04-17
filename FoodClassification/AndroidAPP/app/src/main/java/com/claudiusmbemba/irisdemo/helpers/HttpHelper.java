@@ -37,7 +37,8 @@ public class HttpHelper {
         if (requestPackage.getMethod().equals("POST")) {
             RequestBody requestBody = null;
             if (iris) {
-                requestBuilder.addHeader("Prediction-Key", "1f63500d4fab43a095da927acd22aa60");
+                //TODO: CHANGE ME!!
+                requestBuilder.addHeader("Prediction-Key","a5427...");
                 if (requestPackage.getParams().containsKey("Url")) {
                     requestBuilder.addHeader("Content-Type","application/json");
                     JSONObject json = new JSONObject(requestPackage.getParams());
