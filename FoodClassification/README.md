@@ -1,6 +1,6 @@
- # IRIS Demo
+ # Food Classification Demo
 
-Sample Android code demoing how to make REST calls to Microsoft Cognitive Services IRIS
+Sample Android code demoing how to make REST calls to the Microsoft Custom Vison Service
 
 ## Getting Started
 
@@ -18,7 +18,8 @@ Download from https://developer.android.com/studio/index.html
 
 Clone this git repo using command below or other tools such as Visual Studio.
 ```
-git clone https://github.com/User1m/IRISDemo.git
+git clone https://github.com/CatalystCode/Custom-Vison-Service.git
+cd FoodClassification
 ```
 
 In Android Studio, choose "Open an existing Android Studio Project" and find the cloned directory from the previous step.
@@ -39,7 +40,7 @@ Update the following ENDPOINT string
 private final String ENDPOINT = "your-iris-endpoint-url"
 ```
 
-Change your URL to use a string format placeholder. In your IRIS portal, go to the Performance tab, select an Iteration on the left side and click on Evalution URL.
+Change your URL to use a string format placeholder. In your Custom Vison Service  portal, go to the Performance tab, select an Iteration on the left side and click on Evalution URL.
 
 Your url will look like this and either contain the string 'url' or 'image'.
 ```
@@ -84,8 +85,8 @@ Run Local and Instrumented tests on Android Studio by going to the test file and
 ## Authors
 
 * **Claudius Mbemba** - *Initial work* - [User1m](https://github.com/user1m)
-
-See also the list of [contributors](https://github.com/User1m/IRISDemo/contributors) who participated in this project.
+* **Olga Liakhovich** - *Custom Vison Service Training* - [olgaliak](https://github.com/olgaliak)
+<!-- See also the list of [contributors](https://github.com/User1m/IRISDemo/contributors) who participated in this project. -->
 
 ## License
 
