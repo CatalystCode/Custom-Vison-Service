@@ -84,7 +84,7 @@ Run Local and Instrumented tests on Android Studio by going to the test file and
 
 ## Authors
 
-* **Claudius Mbemba** - *Initial work* - [User1m](https://github.com/user1m)
+* **Claudius Mbemba** - *Android Application* - [User1m](https://github.com/user1m)
 * **Olga Liakhovich** - *Custom Vison Service Training* - [olgaliak](https://github.com/olgaliak)
 <!-- See also the list of [contributors](https://github.com/User1m/IRISDemo/contributors) who participated in this project. -->
 
