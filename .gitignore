@@ -1,8 +1,8 @@
-AndroidAPP/*.iml
-AndroidAPP/.gradle
-AndroidAPP/local.properties
-AndroidAPP/.idea/*
-AndroidAPP/.DS_Store
-AndroidAPP/build/*
-AndroidAPP/captures
-AndroidAPP/.externalNativeBuild
+FoodClassification/AndroidAPP/*.iml
+FoodClassification/AndroidAPP/.gradle
+FoodClassification/AndroidAPP/local.properties
+FoodClassification/AndroidAPP/.idea/*
+FoodClassification/AndroidAPP/.DS_Store
+FoodClassification/AndroidAPP/build/*
+FoodClassification/AndroidAPP/captures
+FoodClassification/AndroidAPP/.externalNativeBuild
