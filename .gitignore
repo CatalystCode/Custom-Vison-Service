@@ -1,4 +1,4 @@
-FoodClassification/AndroidAPP/*.iml
+FoodClassification/AndroidAPP/**/*.iml
 FoodClassification/AndroidAPP/.gradle
 FoodClassification/AndroidAPP/local.properties
 FoodClassification/AndroidAPP/.idea/*
