@@ -54,11 +54,10 @@ def plot_confusion_matrix(cm, classes,
 
 MAX_Iterations = 200000
 # TODO: CHANGE ME!!
-endpoint = "https://customvisionppe.azure-api.net/v1.0/Prediction/a275583f-7105-474.../image?iterationId=954d73b5-0adf..."
-key = '1f63500...'
+endpoint = "<web service endpoint>"
+key = '<web service key>'
 
 print("Reading input csv with images paths and labels")
-# "D:\\repos\\IRISDemo\\EvalWebservice\\EvalWebservice\\images.csv"
 filePath = sys.argv[1]
 print("file: {0}".format(filePath))
 df = pd.read_csv(filePath)
@@ -94,8 +93,8 @@ for index, row in df.iterrows():
     if resp != None and resp.status_code == requests.codes.ok:
         jsonResponse = resp.json()
         try:
-            predictedClass = jsonResponse["Classifications"][0]["Class"]
-            predictedProb = jsonResponse["Classifications"][0]["Probability"]
+            predictedClass = jsonResponse["Predictions"][0]["Tag"]
+            predictedProb = jsonResponse["Predictions"][0]["Probability"]
             y_true.append(label)
             y_pred.append(predictedClass)
         except Exception as e:

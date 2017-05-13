@@ -79,8 +79,9 @@ def plot_confusion_matrix(cm, classes,
 
 
 MAX_Iterations = 200000
-endpoint = "TBD"
-key = "TBD"
+# TODO: CHANGE ME!!
+endpoint = "<web service endpoint>"
+key = '<web service key>'
 
 print("Reading input csv with images paths and labels")
 filePath = sys.argv[1]
@@ -90,11 +91,12 @@ df = pd.read_csv(filePath)
 y_true = []
 y_pred = []
 
+# TODO: CHANGE ME!!
 endpointsDict = {
-    SANDWICH_AND_BURGS: Endpoint(iterationKey="TBD",
-                                 iterationUrl="TBD"),
-    RED_FOOD: Endpoint(iterationKey="TBD",
-                       iterationUrl="TBD")
+    SANDWICH_AND_BURGS: Endpoint(iterationKey="<key>",
+                                 iterationUrl="<url>"),
+    RED_FOOD: Endpoint(iterationKey="<key>",
+                       iterationUrl="<url>")
 }
 
 start_time = time.time()
@@ -110,16 +112,16 @@ for index, row in df.iterrows():
     if resp != None and resp.status_code == requests.codes.ok:
         jsonResponse = resp.json()
         try:
-            predictedClass = jsonResponse["Classifications"][0]["Class"]
-            predictedProb = jsonResponse["Classifications"][0]["Probability"]
+            predictedClass = jsonResponse["Predictions"][0]["Tag"]
+            predictedProb = jsonResponse["Predictions"][0]["Probability"]
             if (predictedClass in endpointsDict):
                 print("Making layer 2 call for {0}".format(predictedClass))
                 subModelInfo = endpointsDict[predictedClass]
                 resp = makePredictionRequest(path, subModelInfo.url, subModelInfo.key, index)
                 if resp != None and resp.status_code == requests.codes.ok:
                     jsonResponse = resp.json()
-                    predictedClass = jsonResponse["Classifications"][0]["Class"]
-                    predictedProb = jsonResponse["Classifications"][0]["Probability"]
+                    predictedClass = jsonResponse["Predictions"][0]["Tag"]
+                    predictedProb = jsonResponse["Predictions"][0]["Probability"]
                 else:
                     respCode = "None"
                     if (resp != None):
